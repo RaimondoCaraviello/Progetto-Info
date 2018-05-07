@@ -6,18 +6,18 @@ public class Veicolo
 	private String Marca;
 	private String Modello;
 	private int Potenza;
-	private boolean pagamentoEffettuato = false;
+	private boolean pagamentoEffettuato;
 	private LocalDate dataImmatricolazione ;
 	
 	
-	public Veicolo (String ID , String Marca, String Modello,int Potenza,boolean pagamentoEffettuato,int Anno,int Mese,int Giorno )
+	public Veicolo (String ID , String Marca, String Modello,int Potenza,int Anno,int Mese,int Giorno )
 	{
 		setID(ID);
 		setMarca(Marca);
 		setModello(Modello);
 		setPotenza(Potenza);
-		isPagamentoEffettuato();
-		dataImmatricolazione = LocalDate.of(Anno,Mese,Giorno);
+		pagamentoEffettuato=false;
+		setDataImmatricolazione(LocalDate.of(Anno,Mese,Giorno));
 	}
 
 
@@ -74,6 +74,18 @@ public class Veicolo
 	public String toString()
 	{
 		return(getID() + " " + getMarca() + " " + getModello() + " " + getPotenza());
+	}
+
+
+	public LocalDate getDataImmatricolazione() 
+	{
+		return dataImmatricolazione;
+	}
+
+
+	public void setDataImmatricolazione(LocalDate dataImmatricolazione) 
+	{
+		this.dataImmatricolazione = dataImmatricolazione;
 	}
 	
 	
