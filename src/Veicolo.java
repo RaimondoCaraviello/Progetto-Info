@@ -9,6 +9,7 @@ public class Veicolo
 	private boolean pagamentoEffettuato;
 	private LocalDate dataImmatricolazione ;
 	
+	//COSTRUTTORE 
 	
 	public Veicolo (String ID , String Marca, String Modello,int Potenza,int Anno,int Mese,int Giorno )
 	{
@@ -18,6 +19,13 @@ public class Veicolo
 		setPotenza(Potenza);
 		pagamentoEffettuato=false;
 		setDataImmatricolazione(LocalDate.of(Anno,Mese,Giorno));
+	}
+	
+	//COSTRUTTORE VUOTO
+	
+	public Veicolo()
+	{
+		
 	}
 
 

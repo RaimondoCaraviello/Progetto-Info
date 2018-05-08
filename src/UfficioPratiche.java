@@ -79,6 +79,58 @@ public class UfficioPratiche
 		}
 		throw new EccezioneVeicolo("Veicolo " + ID + " non presente");
 	}
+
+	//CREA NODO
+	
+	private Nodo creaNodo(Veicolo auto, Nodo link)
+	{
+		Nodo nodo= new Nodo(auto);
+		nodo.setLink(link);
+		return nodo;
+	}
+	
+	//INSERIMENTO ELEMENTI
+	
+	public void inserisciInTesta (Veicolo auto)
+	{
+		
+		Nodo p=creaNodo(auto, head);
+		head=p;
+		elementi++;
+	}
+	
+	public void inserisciInCoda(Veicolo auto)
+	{
+		if(elementi==0)
+		{
+			inserisciInTesta(auto);
+			return;
+		}
+		
+		Nodo pn=creaNodo(auto, null);
+		Nodo p=getLinkPosizione(elementi);
+		p.setLink(pn);
+		elementi++;	
+	}
+	
+	public void inseriscInPosizione(Veicolo auto,int posizione)
+	{
+		if (posizione<=1)
+		{
+			inserisciInTesta(auto);
+			return;
+		}
+		if (posizione>elementi)
+		{
+			inserisciInCoda(auto);
+			return;
+		}
+		
+		Nodo pn=creaNodo(auto, getLinkPosizione(posizione));
+		Nodo precedente=getLinkPosizione(posizione-1);
+		precedente.setLink(pn);
+		elementi++;
+	}
 	
 	//ELIMINAZIONE ELEMENTI
 	
@@ -200,28 +252,28 @@ public class UfficioPratiche
 			}
 		}
 	
-	//METODO SCAMBIA PER L'ORDINAMENTO
+	//ORDINAMENTO per ID
 	
-	public static int scambia (int[] array, int pos1, int pos2)
-
+	public void ordinamentoPerID()
 	{
-		int s;
-		if (pos1<0 || pos2<0 || pos1>=array.length || pos2>=array.length)
-			return -1;
-		else
+		for (int i = 1 ; i < getElementi() ; i++)
 		{
-			s=array[pos1];
-			array[pos1]=array[pos2];
-			array[pos2]=s;
-			return 0;
-		}			
+			
+			if(getVeicolo(i).getID().compareTo(getVeicolo(i+1).getID())<0)
+			{
+				i++;
+			}
+			else if(getVeicolo(i).getID().compareTo(getVeicolo(i+1).getID())>0)
+			{
+				inseriscInPosizione(getVeicolo(i+1),i);
+				eliminaInPosizione(i+2);
+			}
+		}
+		
 	}
 	
-	//PASSAGGIO DATI DA LISTA AD ARRAY
+	//ORDINA PER ORARIO
 	
-	
-	int elementiArray = elementi;
-	private Veicolo[] elencoAuto = new Veicolo[elementiArray];
 	
 	
 	
