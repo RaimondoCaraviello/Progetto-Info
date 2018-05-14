@@ -1,12 +1,24 @@
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.time.LocalDate;
-
-public class UfficioPratiche 
+/**
+ * Questa classe consente di gestire una lista di veicoli e di eseguire determinate operazioni su di essi
+ * @author UTENTE
+ *
+ */
+public class UfficioPratiche implements Serializable
 {
 	private int tassa = 10; 
 	private Nodo head;
 	private int elementi;
 	
+	/**
+	 * Metodo Costruttore 
+	 */
 	public UfficioPratiche()
 	{
 		head=null;
@@ -14,23 +26,21 @@ public class UfficioPratiche
 	}
 	
 	//RITORNA IL NUMERO DI ELEMENTI
-	
+	/**
+	 * Ritorna il numero di elementi della lista
+	 * @return elementi
+	 */
 	public int getElementi()
 	{
 		return elementi;
 	}
-	
-	//AGGIUNGERE UN ELEMENTO NELLA LISTA
-	
-	public Nodo aggiungiNodo (Veicolo auto , Nodo link)
-	{
-		Nodo nodo = new Nodo(auto);
-		nodo.setLink(link);
-		return nodo;
-	}
 
 	//CI RITORNA IL LINK 
-	
+	/**
+	 * Metodo che restutuisce un nodo data una posizione
+	 * @param posizione posizionee da cui si vuole prendere un link
+	 * @return p
+	 */
 	private Nodo getLinkPosizione(int posizione) 
 	{
 		Nodo p;
@@ -53,7 +63,11 @@ public class UfficioPratiche
 	}
 	
 	//RESTITUISCE UN VEICOLO DALLA LISTA
-	
+	/**
+	 * Metodo che ritrona un veicolo data la sua posizione
+	 * @param posizione
+	 * @return informazioni del veicolo
+	 */
 	public Veicolo getVeicolo (int posizione) 
 	{
 		if (elementi==0)
@@ -67,12 +81,17 @@ public class UfficioPratiche
 	}
 	
 	//RICERCA DI UN VEICOLO TRAMITE ID
-	
+	/**
+	 * Metodo che ricerca un veicolo tra quelli presenti tramite l'ID del veicolo
+	 * @param ID
+	 * @return veicolo corrispondente all'ID inserito
+	 * @throws EccezioneVeicolo
+	 */
 	public Veicolo cercaVeicolo(String ID) throws EccezioneVeicolo
 	{
 		for(int i=1; i <= getElementi() ; i++)
 		{
-			if(ID == getVeicolo(i).getID() )
+			if(ID.compareTo(getVeicolo(i).getID()) == 0 )
 			{	
 				return getVeicolo(i);
 			}
@@ -81,7 +100,12 @@ public class UfficioPratiche
 	}
 
 	//CREA NODO
-	
+	/**
+	 * Metodo che serve per la creazione di un nuovo nodo 
+	 * @param auto
+	 * @param link
+	 * @return il nuovo nodo creato
+	 */
 	private Nodo creaNodo(Veicolo auto, Nodo link)
 	{
 		Nodo nodo= new Nodo(auto);
@@ -90,7 +114,10 @@ public class UfficioPratiche
 	}
 	
 	//INSERIMENTO ELEMENTI
-	
+	/**
+	 * Crea un nuovo nodo e lo fa puntare direttamente dall'head della lista
+	 * @param auto
+	 */
 	public void inserisciInTesta (Veicolo auto)
 	{
 		
@@ -98,7 +125,10 @@ public class UfficioPratiche
 		head=p;
 		elementi++;
 	}
-	
+	/**
+	 * Crea un nuovo nodo e lo inserisce nell'ultima posizione 
+	 * @param auto
+	 */
 	public void inserisciInCoda(Veicolo auto)
 	{
 		if(elementi==0)
@@ -112,7 +142,11 @@ public class UfficioPratiche
 		p.setLink(pn);
 		elementi++;	
 	}
-	
+	/**
+	 * Crea un nodo e lo inserisce in una posizione scelta
+	 * @param auto
+	 * @param posizione
+	 */
 	public void inseriscInPosizione(Veicolo auto,int posizione)
 	{
 		if (posizione<=1)
@@ -133,7 +167,9 @@ public class UfficioPratiche
 	}
 	
 	//ELIMINAZIONE ELEMENTI
-	
+	/**
+	 * Elimina il primo elemento della lista
+	 */
 	public void eliminaInTesta() 
 	{
 		if (elementi==0)
@@ -141,7 +177,9 @@ public class UfficioPratiche
 		head=head.getLink();
 		elementi--;
 	}
-	
+	/**
+	 * Elimina l'ultimo elemento della lista
+	 */
 	public void eliminaInCoda() 
 	{
 		if (elementi==0)
@@ -156,7 +194,10 @@ public class UfficioPratiche
 		p.setLink(null);
 		elementi--;
 	}
-	
+	/**
+	 * Elimina un elemento data una posizione scelta
+	 * @param posizione
+	 */
 	public void eliminaInPosizione(int posizione) 
 	{
 		if (elementi==0)
@@ -184,32 +225,64 @@ public class UfficioPratiche
 		elementi--;
 		
 	}
+	
+	//Eliminazione per ID
+	/**
+	 * Metodo che elimina un elemento in una determinata posizione tramite ricerca per ID
+	 * @param ID
+	 */
+	public void EliminaPerID(String ID) 
+	{	
+		for(int i = 1; i <= getElementi();i++)
+		{
+			if(ID.compareTo(getVeicolo(i).getID())==0)
+			{
+				eliminaInPosizione(i);
+				System.out.println("Eliminazione effettuata con successo");
+			}
+			else if (ID.compareTo(getVeicolo(i).getID())!=0)
+			{
+				System.out.println("il veicolo " + ID + " non corrisponde ad un veicolo");
+			}
+		}
+	}
 
 	//CALCOLO TASSA PER VEICOLO
-	
-	public int CalcoloTassa(String ID)throws EccezioneVeicolo
+	/**
+	 * Calcola la tassa relativa ad ogni veicolo in base alla sua potenza
+	 * @param ID
+	 * @throws EccezioneVeicolo
+	 */
+	public void CalcoloTassa(String ID)throws EccezioneVeicolo
 	{
 		int tassaCalcolata;
 		Veicolo auto = cercaVeicolo(ID);
 		tassaCalcolata = tassa*auto.getPotenza();
-		return tassaCalcolata;
+		System.out.println("La tassa relativa all ID : " + ID + " corrisponde a : " + tassaCalcolata);
 	}
 
 	//SETTAGGIO NUOVA TASSA
-	
+	/**
+	 * Consente di reimpostare il valore unitario della tassa
+	 * @param tassa
+	 */
 	public void setTassa (int tassa)
 	{
 		this.tassa=tassa;
 	}
 	
 	//VERIFICA PAGAMENTO AUTO
-	
+	/**
+	 * Verifica se un determinato veicolo registrato nel sistema ha effettuato il pagamento ed indica anche la data di pagamento effettuato
+	 * @param ID
+	 * @throws EccezioneVeicolo
+	 */
 	public void verificaPagamento (String ID) throws EccezioneVeicolo
 	{
 		Veicolo auto = cercaVeicolo(ID);
 		if(auto.isPagamentoEffettuato()== true)
 		{
-			System.out.println("Tassa gia pagata il giorno: " + auto.getDataImmatricolazione());
+			System.out.println("Tassa del veciolo numero : " + auto.getID() + "e' gia stata pagata il giorno: " + auto.getDataImmatricolazione());
 		}
 		else
 		{
@@ -218,7 +291,14 @@ public class UfficioPratiche
 	}
 	
 	//PARTE CSV (SALVATAGGIO/CARICAMENTO)
-	
+	/**
+	 * Metodo che permette di stampare i dati su un file di testocon tutte le caratteristiche del veicolo
+	 * @param nomeFile
+	 * @param ID
+	 * @throws IOException
+	 * @throws EccezioneVeicolo
+	 * @throws FileException
+	 */
 	public void esportaCSV (String nomeFile,String ID) throws IOException, EccezioneVeicolo, FileException
 	{
 		TextFile file= new TextFile (nomeFile,'W');
@@ -228,7 +308,7 @@ public class UfficioPratiche
 		for (int i = 1; i <= getElementi(); i++) 
 		{
 			auto=cercaVeicolo(ID);
-			autoCSV=auto.getID()+ '\n' + auto.getMarca() + '\n' + auto.getModello()+ '\n' + auto.getPotenza() + '\n' + auto.getDataImmatricolazione() + '\n' + CalcoloTassa(ID);
+			autoCSV=auto.getID() + '\n' + auto.getMarca() + '\n' + auto.getModello()+ '\n' + auto.getPotenza() +  '\n' + auto.isPagamentoEffettuato() + '\n' + auto.getDataImmatricolazione();
 			file.toFile(autoCSV);
 		}
 		file.closeFile();
@@ -236,7 +316,13 @@ public class UfficioPratiche
 	}
 
 	//SIMULAZIONE PAGAMENTO TASSA ( con esportazione su file )
-	
+	/**
+	 * Metodo che permette di pagare la tassa relativa all'auto fornendo anche la data di effettivo pagamento
+	 * @param ID
+	 * @throws EccezioneVeicolo
+	 * @throws FileException
+	 * @throws IOException
+	 */
 	public void pagaTassa(String ID)throws EccezioneVeicolo , FileException , IOException
 		{
 			Veicolo auto=cercaVeicolo(ID);
@@ -245,6 +331,7 @@ public class UfficioPratiche
 				auto.setPagamentoEffettuato(true);
 				auto.setDataImmatricolazione(LocalDate.now());
 				esportaCSV("Tassa.txt", ID);
+				System.out.println("Tassa Pagata");
 			}
 			else
 			{
@@ -253,7 +340,9 @@ public class UfficioPratiche
 		}
 	
 	//ORDINAMENTO per ID
-	
+	/**
+	 * Ordina gli elementi in base all' ID
+	 */
 	public void ordinamentoPerID()
 	{
 		for (int i = 1 ; i < getElementi() ; i++)
@@ -269,12 +358,58 @@ public class UfficioPratiche
 				eliminaInPosizione(i+2);
 			}
 		}
+		for (int i = 1; i <= getElementi() ; i++)
+		{
+			System.out.println(getVeicolo(i));
+		}
 		
 	}
 	
 	//ORDINA PER ORARIO
-	
-	
+	/**
+	 * Ordina gli elementi per data di immatricolazione
+	 */
+	public void OrdinamentoPerData()
+	{
+		//Poichè LocalDate.now permette di prendere l'orario effettivo dell'immatricolazione 
+		//ogni nuovo veicolo sarà per forza ordinato per orario
+		
+		for (int i = 1; i <= getElementi() ; i++)
+		{
+			System.out.println(getVeicolo(i));
+		}
+	}
+	/**
+	 * Serializza i dati
+	 * @param nomeFile
+	 * @throws IOException
+	 */
+	public void salvaListaPagamenti(String nomeFile) throws IOException
+	{
+		FileOutputStream file =new FileOutputStream(nomeFile);
+		ObjectOutputStream writer=new ObjectOutputStream(file);
+		writer.writeObject(this);
+		writer.flush();
+		file.close();
+	}
+	/**
+	 * Deserializza i dati salvati
+	 * @param nomeFile
+	 * @return
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
+	public UfficioPratiche caricaListaPagamenti (String nomeFile) throws IOException, ClassNotFoundException
+	{
+		FileInputStream file=new FileInputStream(nomeFile);
+		ObjectInputStream reader= new ObjectInputStream(file);
+		
+		UfficioPratiche lista;
+		
+		lista=(UfficioPratiche)(reader.readObject());
+		file.close();
+		return lista;
+	}
 	
 	
 	

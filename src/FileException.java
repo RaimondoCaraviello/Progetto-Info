@@ -1,7 +1,6 @@
 
 public class FileException extends Exception 
 {
-
 	private String message;
 	
 	public FileException(String message)
@@ -13,5 +12,4 @@ public class FileException extends Exception
 	{
 		return message;
 	}
-	
 }
