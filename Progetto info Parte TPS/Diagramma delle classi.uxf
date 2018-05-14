@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>130</x>
+      <y>160</y>
+      <w>390</w>
+      <h>340</h>
+    </coordinates>
+    <panel_attributes>Veicolo
+--
+Id : string
+marca : string
+modello : string
+potenza : int
+pagamentoeffettuato :boolean
+dataimmatricolazione Localdate
+--
++Veicolo(in Id:string , marca:string , modello:string, potenza:int , dataImmatricolazione :localDate)
++getId():string
++setId(in id:string)
++getMarca():string
++setMarca(in marca:string)
++getModello():string
++setModello(in modello : string)
++getPotenza():int
++setPotenza(in potenza : int)
++isPagamentoeffettuato():boolean
++setpagamentoeffettuato(in pagamentoeffettuato:boolean)
++getdataimmatricolazione():LocalDate
++setdataimmatricolazione(in dataimmatricolazione : localdate)
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>220</x>
+      <y>0</y>
+      <w>210</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>Nodo
+--
+info : Veicolo
+link : Nodo
+--
++Nodo(in auto: Veicolo)
++getInfo(): Veicolo
++setInfo(in info : Veicolo)
++getLink() : Nodo
++setLink(in link : Nodo)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>540</x>
+      <y>20</y>
+      <w>340</w>
+      <h>450</h>
+    </coordinates>
+    <panel_attributes>UfficioPratiche
+--
+head:nodo
+tassa = 10:int
+--
++ufficopratiche()
++getelementi():int
++getLinkPosizione(in posizione:int):Nodo
++getVeicolo(in posizione:int):veicolo
++cercaVeicolo(id:string):veicolo
++creaNodo(in auto:veicolo):nodo
++inscerisciintesta(in auto :veicolo)
+inserisciincoda(in auto :veicolo)
+inserisciinposizione(in auto:veciolo , posizione:int)
++eliminaIntesta(in auto:veicolo)
++eliminaIncoda(in auto:veicolo)
++eliminaInposizione(in auto:veicolo , posizione :int)
++eliminaperid(in id:string)
++calcolotassa(in id:string)
++settassa(in tassa:int)
++verificaPagamento(id:string)
++esportacsv(in nomefile:string , id:string)
++pagatassa(in id:string)
++ordinamentoperid()
++ordinamentoperdata()
++salvaListapagamenti(in nomefile:string)
++caricalistapagamenti(in nomefile:string)</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
